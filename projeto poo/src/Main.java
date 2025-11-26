@@ -12,7 +12,7 @@ public class Main {
 
 
         Cliente c1 = new Cliente("Kevin","132.767.037.26");
-
+        String hoje = "20/02/2026";
 
         // gerar um menu para mostrar os itens
         // comprar do cliente, escolhendo o produto (verificar a validade) (adicionar na arraylist)
