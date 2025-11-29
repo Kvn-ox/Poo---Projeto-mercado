@@ -15,8 +15,6 @@ public class Main {
         Cliente c1 = new Cliente("Kevin", "13276703726");
         String hoje = "20/02/2026";
 
-        // LISTA DE PRODUTOS
-        ArrayList<Object> produtos = new ArrayList<>();
 
         produtos.add(new Utensilio(3, "Machado", 10, "Hammer", "Ferramenta"));
         produtos.add(new Utensilio(4, "Isqueiro", 2, "Bic", "Ferramenta"));
@@ -24,7 +22,6 @@ public class Main {
         produtos.add(new Comida(6, 6, 1, "Leite", "25/12/2025", "Alimento"));
         produtos.add(new Comida(5, 12, 1, "Danone", "25/12/2025", "Alimento"));
 
-        // adicionados como você pediu
         produtos.add(new Comida(3, 15, 1, "Banana", "21/02/2026", "Alimento"));
         produtos.add(new Comida(4, 20, 1, "Maçã", "20/02/2026", "Alimento"));
 
