@@ -1,5 +1,7 @@
-package Mercado.Alimentos;
+package Mercado;
 
-public class Validade {
-
+public class ValidadeException extends Exception {
+    public ValidadeException(String msg) {
+        super(msg);
+    }
 }
