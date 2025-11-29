@@ -1,4 +1,6 @@
 import Cliente.Cliente;
+import Mercado.Produto;
+import Mercado.ValidadeException;
 import Mercado.Alimentos.Comida;
 import Mercado.Utensilios.Utensilio;
 
@@ -8,114 +10,73 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        // CLIENTE
-        Cliente c1 = new Cliente("Kevin", "132.767.037.26");
+        Scanner sc = new Scanner(System.in);
+
+        Cliente c1 = new Cliente("Kevin", "13276703726");
         String hoje = "20/02/2026";
 
-        // LISTA DE PRODUTOS DISPONÍVEIS (tipo Produto é superclasse; aqui mantemos Object apenas para compatibilidade)
+        // LISTA DE PRODUTOS
         ArrayList<Object> produtos = new ArrayList<>();
-        produtos.add(new Utensilio(3, "machado", 10, "hammer", "ferramenta"));
-        produtos.add(new Utensilio(4, "isqueiro", 2, "bic", "ferramenta"));
-        produtos.add(new Comida(25, 6, 1, "leite", "25/12/2025", "alimento"));
-        produtos.add(new Comida(30, 6, 1, "Danone", "25/12/2025", "alimento"));
-        // (se quiser usar banana/maça, adicione com as datas do seu arquivo)
 
-        Scanner sc = new Scanner(System.in);
-        int op;
+        produtos.add(new Utensilio(3, "Machado", 10, "Hammer", "Ferramenta"));
+        produtos.add(new Utensilio(4, "Isqueiro", 2, "Bic", "Ferramenta"));
 
-        do {
-            System.out.println("\n==== MERCADO ====");
-            System.out.println("Cliente: " + c1.getNome());
-            System.out.println("Data de hoje: " + hoje);
+        produtos.add(new Comida(6, 6, 1, "Leite", "25/12/2025", "Alimento"));
+        produtos.add(new Comida(5, 12, 1, "Danone", "25/12/2025", "Alimento"));
 
-            System.out.println("\n1 - Mostrar produtos");
-            System.out.println("2 - Comprar produto");
-            System.out.println("3 - Finalizar compra (mostrar carrinho)");
+        // adicionados como você pediu
+        produtos.add(new Comida(3, 15, 1, "Banana", "21/02/2026", "Alimento"));
+        produtos.add(new Comida(4, 20, 1, "Maçã", "20/02/2026", "Alimento"));
+
+
+        int op = -1;
+
+        while (op != 0) {
+            System.out.println("\n=== MERCADIN ===");
+            System.out.println("1 - Listar produtos");
+            System.out.println("2 - Comprar");
+            System.out.println("3 - Finalizar compra");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
-            // proteger caso o usuário digite algo diferente de int
-            while (!sc.hasNextInt()) {
-                System.out.print("Digite um número válido: ");
-                sc.next();
-            }
             op = sc.nextInt();
 
-            switch (op) {
-                case 1:
-                    System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
-                    for (int i = 0; i < produtos.size(); i++) {
-                        System.out.print(i + " - ");
-                        Object p = produtos.get(i);
-                        if (p instanceof Comida) {
-                            ((Comida) p).mostrar();
-                        } else if (p instanceof Utensilio) {
-                            ((Utensilio) p).mostrar();
-                        } else {
-                            System.out.println(p.toString());
-                        }
-                    }
-                    break;
-
-                case 2:
-                    System.out.println("\nDigite o ID do produto que deseja comprar:");
-                    for (int i = 0; i < produtos.size(); i++) {
-                        System.out.print(i + " - ");
-                        Object p = produtos.get(i);
-                        if (p instanceof Comida) {
-                            ((Comida) p).mostrar();
-                        } else if (p instanceof Utensilio) {
-                            ((Utensilio) p).mostrar();
-                        } else {
-                            System.out.println(p.toString());
-                        }
-                    }
-
-                    System.out.print("Produto (ID): ");
-                    while (!sc.hasNextInt()) {
-                        System.out.print("Digite um ID válido: ");
-                        sc.next();
-                    }
-                    int id = sc.nextInt();
-
-                    if (id < 0 || id >= produtos.size()) {
-                        System.out.println("ID inválido.");
-                        break;
-                    }
-
-                    Object escolhido = produtos.get(id);
-
-                    // Verificação de validade ANTES de comprar — se for Comida
-                    if (escolhido instanceof Comida) {
-                        Comida comida = (Comida) escolhido;
-                        if (!comida.validadeOk(hoje)) {
-                            System.out.println("❌ Esse alimento está VENCIDO! Não pode comprar.");
-                        } else {
-                            // adiciona no arraylist do cliente
-                            c1.Addcarrinhodecompra(comida);
-                        }
-                    } else if (escolhido instanceof Utensilio) {
-                        // Utensílio: adiciona direto
-                        c1.Addcarrinhodecompra((Utensilio) escolhido);
-                    } else {
-                        System.out.println("Tipo de produto desconhecido.");
-                    }
-                    break;
-
-                case 3:
-                    // mostra o carrinho do cliente (itens adicionados no Cliente)
-                    c1.mostrarCarrinho();
-                    break;
-
-                case 0:
-                    System.out.println("Saindo...");
-                    break;
-
-                default:
-                    System.out.println("Opção inválida.");
+            if (op == 1) {
+                for (int i = 0; i < produtos.size(); i++) {
+                    System.out.print(i + " - ");
+                    ((Produto) produtos.get(i)).mostrar();
+                }
             }
 
-        } while (op != 0);
+            else if (op == 2) {
+                System.out.print("Digite o número do produto: ");
+                int idx = sc.nextInt();
 
-        sc.close();
+                if (idx < 0 || idx >= produtos.size()) {
+                    System.out.println("Produto inválido.");
+                    continue;
+                }
+
+                Object obj = produtos.get(idx);
+
+                if (obj instanceof Comida) {
+                    try {
+                        Comida comida = (Comida) obj;
+                        comida.validadeOk(hoje);
+                        c1.adicionarProduto(comida);
+                        System.out.println("Adicionado ao carrinho!");
+                    } catch (ValidadeException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else {
+                    Produto p = (Produto) obj;
+                    c1.adicionarProduto(p);
+                    System.out.println("Adicionado ao carrinho!");
+                }
+            }
+
+            else if (op == 3) {
+                c1.mostrarCompras();
+            }
+        }
     }
 }
