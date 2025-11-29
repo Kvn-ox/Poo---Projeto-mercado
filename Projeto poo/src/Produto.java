@@ -1,10 +1,10 @@
 package Mercado;
 
-public abstract class Produto {
-    protected String tipo;
-    protected double preco;
-    protected int quantidade;
-    protected String nome;
+public class Produto {
+    private int quantidade;
+    private String nome;
+    private double preco;
+    private String tipo;
 
     public Produto(int quantidade, String nome, double preco, String tipo) {
         this.quantidade = quantidade;
@@ -13,30 +13,12 @@ public abstract class Produto {
         this.tipo = tipo;
     }
 
-    public abstract void Addproduto();
+    public int getQuantidade() { return quantidade; }
+    public String getNome() { return nome; }
+    public double getPreco() { return preco; }
+    public String getTipo() { return tipo; }
 
-    // método para mostrar informação do produto (implementado nas subclasses)
     public void mostrar() {
-        System.out.printf("%s - %s - Qtd: %d - R$ %.2f%n", tipo, nome, quantidade, preco);
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public String getNome() {
-        return nome;
+        System.out.println(nome + " | R$ " + preco + " | Estoque: " + quantidade);
     }
 }
